@@ -19,7 +19,7 @@ async function getCatches() {
     catchesContainer.append(...catches.map(c => createHtmlCatch(c)));
 }
 
-async function createCatch(){
+async function createCatch() {
     let anglerInput = document.querySelector('#addForm .angler');
     let weightInput = document.querySelector('#addForm .weight');
     let speciesInput = document.querySelector('#addForm .species');
@@ -36,8 +36,7 @@ async function createCatch(){
         captureTime: Number(captureTimeInput.value)
     };
 
-    let createResponse = await fetch('http://localhost:3030/data/catches',
-    {
+    let createResponse = await fetch('http://localhost:3030/data/catches', {
         headers: {
             'Content-Type': 'application/json',
             'X-Authorization': localStorage.getItem('token')
@@ -51,7 +50,7 @@ async function createCatch(){
     console.log(createResult);
 }
 
-async function updateCatch(e){
+async function updateCatch(e) {
     let curCatch = e.target.parentElement;
     let anglerInput = curCatch.querySelector('.angler');
     let weightInput = curCatch.querySelector('.weight');
@@ -84,7 +83,7 @@ async function updateCatch(e){
     console.log(updateResult);
 }
 
-async function deleteCatch(e){
+async function deleteCatch(e) {
     let curCatch = e.target.parentElement;
     let id = curCatch.dataset.id;
     let url = `http://localhost:3030/data/catches/${id}`;
@@ -97,41 +96,41 @@ async function deleteCatch(e){
 
     let deleteResult = await deleteResponse.json();
     console.log(deleteResult);
-    if(deleteResponse.status === 200){
+    if (deleteResponse.status === 200) {
         curCatch.remove();
     }
 }
 
 function createHtmlCatch(curCatch) {
     let anglerLable = ce('label', undefined, 'Angler');
-    let anglerInput = ce('input', {type: 'text', class:'angler'}, curCatch.angler);
+    let anglerInput = ce('input', { type: 'text', class: 'angler' }, curCatch.angler);
     let hr1 = ce('hr');
     let weightLabel = ce('label', undefined, 'Weight');
-    let weightInput = ce('input', {type:'number', class:'weight'}, curCatch.weight);
+    let weightInput = ce('input', { type: 'number', class: 'weight' }, curCatch.weight);
     let hr2 = ce('hr');
     let speciesLabel = ce('label', undefined, 'Species');
-    let speciesInput = ce('input', {type:'text', class:'species'}, curCatch.species);
+    let speciesInput = ce('input', { type: 'text', class: 'species' }, curCatch.species);
     let hr3 = ce('hr');
     let locationLabel = ce('label', undefined, 'Location');
-    let locationInput = ce('input', {type:'text', class:'location'}, curCatch.location);
+    let locationInput = ce('input', { type: 'text', class: 'location' }, curCatch.location);
     let hr4 = ce('hr');
     let baitLabel = ce('label', undefined, 'Bait');
-    let baitInput = ce('input', {type:'text', class:'bait'}, curCatch.bait);
+    let baitInput = ce('input', { type: 'text', class: 'bait' }, curCatch.bait);
     let hr5 = ce('hr');
     let captureTimeLabel = ce('label', undefined, 'Capture Time');
-    let captureTimeInput = ce('input', {type:'number', class:'captureTime'}, curCatch.captureTime);
+    let captureTimeInput = ce('input', { type: 'number', class: 'captureTime' }, curCatch.captureTime);
     let hr6 = ce('hr');
-    let updateBtn = ce('button', {disabled:true, class:'update'}, 'Update');
+    let updateBtn = ce('button', { disabled: true, class: 'update' }, 'Update');
     updateBtn.addEventListener('click', updateCatch);
     updateBtn.disabled = localStorage.getItem('userId') !== curCatch._ownerId;
-    let deleteBtn = ce('button', {disabled:true, class:'delete'}, 'Delete');
+    let deleteBtn = ce('button', { disabled: true, class: 'delete' }, 'Delete');
     deleteBtn.addEventListener('click', deleteCatch);
     deleteBtn.disabled = localStorage.getItem('userId') !== curCatch._ownerId;
 
-    let catchDiv = ce('div', {class:'catch'},
-    anglerLable, anglerInput, hr1, weightLabel, weightInput, hr2, speciesLabel, speciesInput,
-    hr3, locationLabel, locationInput, hr4, baitLabel, baitInput, hr5, captureTimeLabel,
-    captureTimeInput, hr6, updateBtn, deleteBtn);
+    let catchDiv = ce('div', { class: 'catch' },
+        anglerLable, anglerInput, hr1, weightLabel, weightInput, hr2, speciesLabel, speciesInput,
+        hr3, locationLabel, locationInput, hr4, baitLabel, baitInput, hr5, captureTimeLabel,
+        captureTimeInput, hr6, updateBtn, deleteBtn);
     catchDiv.dataset.id = curCatch._id;
     catchDiv.dataset.ownerId = curCatch._ownerId;
     return catchDiv;
@@ -141,7 +140,7 @@ function createHtmlCatch(curCatch) {
 function ce(tag, attributes, ...params) {
     let element = document.createElement(tag);
     let firstValue = params[0];
-    if (params.length === 1 && typeof (firstValue) !== 'object') {
+    if (params.length === 1 && typeof(firstValue) !== 'object') {
         if (['input', 'textarea'].includes(tag)) {
             element.value = firstValue;
         } else {
